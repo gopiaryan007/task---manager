@@ -1,0 +1,53 @@
+class TaskManager {
+    constructor() {
+      this.tasks = [];
+    }
+    
+    addTask(title) {
+      this.tasks.push({title, status: "pending"});
+      return this;
+      
+    }
+    
+    markComplete(title) {
+      this.tasks = this.tasks.map(task => 
+      task.title === title ? ({...task, status: "completed" }) : task );
+      return this;
+    }
+  
+    filterTasks(status) {
+      return this.tasks.filter(task => task.status === status);
+    }
+    
+    listTasks() {
+      this.tasks.forEach (task => console.log(`${task.title} - ${task.status}`));
+      return this;
+    }
+  
+    sortTasks() {
+      this.tasks.sort((a,b) => a.title.localeCompare(b.title));
+      return this;
+    }
+  
+    countTasks() {
+      return this.tasks.reduce ((count, task) => {
+      count[task.status] = (count[task.status] || 0) + 1;
+      return count;
+      }, {});
+   }
+  }
+  
+  const manager = new TaskManager();
+  
+  manager
+  .addTask("Learn Javascript")
+  .addTask("complete project")
+  .addTask("Write documentation")
+  .markComplete("Complete project")
+  .sortTasks()
+  .listTasks();
+  
+  console.log("Task Count:", manager.countTasks());
+  console.log("Pending Tasks:", manager.filterTasks("pending"));
+  console.log("Completed Tasks:", manager.filterTasks("Completeed"));
+  
